@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** This class is the main entry point. */
@@ -70,23 +71,35 @@ public class MapEngine {
   public void showRoute() {
     Country source = null;
     Country destination = null;
+    List<Country> journey = new ArrayList<>();
 
     do {
       MessageCli.INSERT_SOURCE.printMessage();
       String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       source = graph.getCountryByName(sourceInput);
-      if (source == null) {
-        MessageCli.INVALID_COUNTRY.printMessage(sourceInput);
-      }
     } while (source == null);
 
     do {
       MessageCli.INSERT_DESTINATION.printMessage();
       String destinationInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       destination = graph.getCountryByName(destinationInput);
-      if (destination == null) {
-        MessageCli.INVALID_COUNTRY.printMessage(destinationInput);
-      }
     } while (destination == null);
+
+    journey = graph.shortestPathBreadthFirstTraversal(source, destination);
+
+    int countryCount = 0;
+    StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
+    for (Country country : journey) {
+      String countryName = country.getCountryName();
+      countryCount++;
+
+      stringBuilderCountriesTraversed.append(countryName);
+      if (countryCount < journey.size()) {
+        stringBuilderCountriesTraversed.append(", ");
+      }
+    }
+
+    String countriesTraversed = stringBuilderCountriesTraversed.toString();
+    MessageCli.ROUTE_INFO.printMessage("[" + countriesTraversed + "]");
   }
 }
