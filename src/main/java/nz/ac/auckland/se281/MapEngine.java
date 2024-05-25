@@ -103,6 +103,7 @@ public class MapEngine {
 
     int countryCount = 0;
     int continentCount = 0;
+    int totalTax = 0;
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
     StringBuilder stringBuilderContinentsTraversed = new StringBuilder();
     for (Country country : journey) {
@@ -111,14 +112,23 @@ public class MapEngine {
       countryCount++;
 
       stringBuilderCountriesTraversed.append(countryName);
+
+      // Don't add comma after final country name
       if (countryCount < journey.size()) {
         stringBuilderCountriesTraversed.append(", ");
+      }
+
+      // Don't add border tax of source country
+      if (countryCount > 1) {
+        totalTax += country.getBorderTax();
       }
     }
 
     for (String continent : continents) {
       stringBuilderContinentsTraversed.append(continent);
       continentCount++;
+
+      // Don't add comma after final continent name
       if (continentCount < continents.size()) {
         stringBuilderContinentsTraversed.append(", ");
       }
@@ -129,5 +139,6 @@ public class MapEngine {
 
     MessageCli.ROUTE_INFO.printMessage("[" + countriesTraversed + "]");
     MessageCli.CONTINENT_INFO.printMessage("[" + continentsTraversed + "]");
+    MessageCli.TAX_INFO.printMessage(String.valueOf(totalTax));
   }
 }
