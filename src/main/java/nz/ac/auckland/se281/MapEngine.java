@@ -6,20 +6,18 @@ import java.util.List;
 public class MapEngine {
 
   public MapEngine() {
-    // add other code here if you want
-    loadMap(); // keep this mehtod invocation
+    loadMap();
   }
 
   /** invoked one time only when constracting the MapEngine class. */
   private void loadMap() {
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
-    // add code here to create your data structures
   }
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // add code here
+    String input = Utils.readStringInput();
   }
 
   /** this method is invoked when the user run the command route. */

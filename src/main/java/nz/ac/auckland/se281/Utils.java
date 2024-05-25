@@ -16,6 +16,10 @@ public class Utils {
 
   public static Scanner scanner = new Scanner(System.in);
 
+  public static String readStringInput() {
+    return scanner.nextLine();
+  }
+
   public static List<String> readCountries() {
     return readCsv("./src/main/resources/countries.csv");
   }
