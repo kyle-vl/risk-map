@@ -45,17 +45,18 @@ public class MapEngine {
       String input = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
 
       // Find matching country name
-      for (Country country : graph.getAdjacencyMap().keySet()) {
-        if (country.getCountryName().equals(input)) {
-          // Get and print country details
-          String countryName = country.getCountryName();
-          String continent = country.getContinent();
-          String borderTax = String.valueOf(country.getBorderTax());
-          MessageCli.COUNTRY_INFO.printMessage(countryName, continent, borderTax);
-          return;
-        }
+      Country country = graph.getCountryByName(input);
+
+      if (country != null) {
+        // Get and print country details if found
+        String countryName = country.getCountryName();
+        String continent = country.getContinent();
+        String borderTax = String.valueOf(country.getBorderTax());
+        MessageCli.COUNTRY_INFO.printMessage(countryName, continent, borderTax);
+        return;
+      } else {
+        throw new InvalidCountryException(input);
       }
-      throw new InvalidCountryException(input);
     } catch (InvalidCountryException e) {
       // If country not found, throw exception and print error message
       System.out.println(e.getMessage());
