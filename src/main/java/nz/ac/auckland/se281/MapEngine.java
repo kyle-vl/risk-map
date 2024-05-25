@@ -66,5 +66,26 @@ public class MapEngine {
   }
 
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+    Country source = null;
+    Country destination = null;
+
+    do {
+      MessageCli.INSERT_SOURCE.printMessage();
+      String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
+      source = graph.getCountryByName(sourceInput);
+      if (source == null) {
+        MessageCli.INVALID_COUNTRY.printMessage(sourceInput);
+      }
+    } while (source == null);
+
+    do {
+      MessageCli.INSERT_DESTINATION.printMessage();
+      String destinationInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
+      destination = graph.getCountryByName(destinationInput);
+      if (destination == null) {
+        MessageCli.INVALID_COUNTRY.printMessage(destinationInput);
+      }
+    } while (destination == null);
+  }
 }

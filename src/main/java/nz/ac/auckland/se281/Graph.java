@@ -24,4 +24,13 @@ class Graph {
     addVertex(node1);
     adjacencyMap.get(node1).add(node2);
   }
+
+  public Country getCountryByName(String name) {
+    for (Country country : getAdjacencyMap().keySet()) {
+      if (country.getCountryName().equals(name)) {
+        return country;
+      }
+    }
+    return null;
+  }
 }
