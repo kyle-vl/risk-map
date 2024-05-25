@@ -77,13 +77,24 @@ public class MapEngine {
       MessageCli.INSERT_SOURCE.printMessage();
       String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       source = graph.getCountryByName(sourceInput);
+      if (source == null) {
+        MessageCli.INVALID_COUNTRY.printMessage(sourceInput);
+      }
     } while (source == null);
 
     do {
       MessageCli.INSERT_DESTINATION.printMessage();
       String destinationInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       destination = graph.getCountryByName(destinationInput);
+      if (destination == null) {
+        MessageCli.INVALID_COUNTRY.printMessage(destinationInput);
+      }
     } while (destination == null);
+
+    if (source.equals(destination)) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
+    }
 
     journey = graph.shortestPathBreadthFirstTraversal(source, destination);
 
