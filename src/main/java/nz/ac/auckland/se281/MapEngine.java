@@ -39,8 +39,7 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // Repeat until user enters valid country name
-    while (true) {
+    try {
       // Ask user for input
       MessageCli.INSERT_COUNTRY.printMessage();
       String input = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
@@ -56,8 +55,13 @@ public class MapEngine {
           return;
         }
       }
-      // If country not found, print error message and loop again
-      MessageCli.INVALID_COUNTRY.printMessage(input);
+      throw new InvalidCountryException(input);
+    } catch (InvalidCountryException e) {
+      // If country not found, throw exception and print error message
+      System.out.println(e.getMessage());
+
+      // Repeat method
+      showInfoCountry();
     }
   }
 
