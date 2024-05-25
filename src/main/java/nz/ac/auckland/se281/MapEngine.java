@@ -1,7 +1,9 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -72,6 +74,7 @@ public class MapEngine {
     Country source = null;
     Country destination = null;
     List<Country> journey = new ArrayList<>();
+    Set<String> continents = new LinkedHashSet<>();
 
     do {
       MessageCli.INSERT_SOURCE.printMessage();
@@ -99,9 +102,12 @@ public class MapEngine {
     journey = graph.shortestPathBreadthFirstTraversal(source, destination);
 
     int countryCount = 0;
+    int continentCount = 0;
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
+    StringBuilder stringBuilderContinentsTraversed = new StringBuilder();
     for (Country country : journey) {
       String countryName = country.getCountryName();
+      continents.add(country.getContinent());
       countryCount++;
 
       stringBuilderCountriesTraversed.append(countryName);
@@ -110,7 +116,18 @@ public class MapEngine {
       }
     }
 
+    for (String continent : continents) {
+      stringBuilderContinentsTraversed.append(continent);
+      continentCount++;
+      if (continentCount < continents.size()) {
+        stringBuilderContinentsTraversed.append(", ");
+      }
+    }
+
     String countriesTraversed = stringBuilderCountriesTraversed.toString();
+    String continentsTraversed = stringBuilderContinentsTraversed.toString();
+
     MessageCli.ROUTE_INFO.printMessage("[" + countriesTraversed + "]");
+    MessageCli.CONTINENT_INFO.printMessage("[" + continentsTraversed + "]");
   }
 }
