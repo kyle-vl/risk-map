@@ -1,11 +1,14 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 class Graph {
   private Map<Country, List<String>> adjacencyMap;
@@ -36,29 +39,50 @@ class Graph {
     return null;
   }
 
-  public List<Country> breadthFirstTraversal(Country source, Country destination) {
-    List<Country> visited = new ArrayList<>();
+  public List<Country> shortestPathBreadthFirstTraversal(Country source, Country destination) {
+    // Visited can be a HashSet as the order does not matter
+    Set<Country> visited = new HashSet<>();
     Queue<Country> queue = new LinkedList<>();
+
+    /* parentMap will keep track of where each node comes from,
+    with the source as the head hence it's value being null. */
+    Map<Country, Country> parentMap = new HashMap<>();
+    parentMap.put(source, null);
     queue.add(source);
     visited.add(source);
 
     while (!queue.isEmpty()) {
       Country currentCountry = queue.poll();
-      if (currentCountry.equals(destination)) {
-        // If destination reached, stop and return the visited list
-        return visited;
-      }
 
+      // Get all adjacent countries from string countryName
       List<String> adjacents = getAdjacencyMap().get(currentCountry);
       for (String adjacentName : adjacents) {
         Country adjacent = getCountryByName(adjacentName);
+
         if (adjacent != null && !visited.contains(adjacent)) {
+          /* Add adjacent to visited and queue lists if it hasn't been visited yet.
+          Record the adjacent's parent on the parentMap. */
           visited.add(adjacent);
           queue.add(adjacent);
+          parentMap.put(adjacent, currentCountry);
+
+          // If the adjacent is the destination, reconstruct path.
+          if (adjacent.equals(destination)) {
+            List<Country> path = new ArrayList<>();
+            Country node = adjacent;
+            while (node != null) {
+              path.add(node);
+              node = parentMap.get(node);
+            }
+            /* Path is in backwards order as it traverses from destination to source,
+            so it must be reversed before being returned. */
+            Collections.reverse(path);
+            return path;
+          }
         }
       }
     }
-
-    return visited;
+    // This method should (theoretically) never return null as each node is connected on the graph.
+    return null;
   }
 }
