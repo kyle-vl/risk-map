@@ -1,12 +1,15 @@
 package nz.ac.auckland.se281;
 
-//* As each country contains a name, continent, and border tax, this class will be the key for the map. */
+/**
+ * As each country contains a name, continent, and border tax, this 
+ * class will be the key for the map.
+ */
 public class Country {
   private String countryName;
   private String continent;
   private int borderTax;
 
-  //* Country constructor */
+  /** Country constructor */
   public Country(String countryName, String continent, int borderTax) {
     this.countryName = countryName;
     this.continent = continent;

@@ -57,7 +57,7 @@ public class MapEngine {
       MessageCli.COUNTRY_INFO.printMessage(countryName, continent, borderTax);
       return;
     } else {
-      // Repeat method if exception thrown
+      // Repeat method if country is null and InvalidCountryException has been thrown
       showInfoCountry();
     }
   }
@@ -67,7 +67,9 @@ public class MapEngine {
     Country source = null;
     Country destination = null;
 
-    // Invalid input handling
+    /* Invalid input handling for source and destination.
+     * If getCountryByName returns null, InvalidCountryException is thrown and loop repeats.
+     */
     do {
       MessageCli.INSERT_SOURCE.printMessage();
       String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
@@ -94,6 +96,8 @@ public class MapEngine {
     Set<String> continents = new LinkedHashSet<>();
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
     StringBuilder stringBuilderContinentsTraversed = new StringBuilder();
+
+    // Append lists
     for (Country country : journey) {
       String countryName = country.getCountryName();
       continents.add(country.getContinent());
@@ -122,6 +126,7 @@ public class MapEngine {
       }
     }
 
+    // Convert StringBuilders to String and print info
     String countriesTraversed = stringBuilderCountriesTraversed.toString();
     String continentsTraversed = stringBuilderContinentsTraversed.toString();
 
