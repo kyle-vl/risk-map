@@ -1,6 +1,5 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,29 +41,23 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    try {
-      // Ask user for input
-      MessageCli.INSERT_COUNTRY.printMessage();
-      String input = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
 
-      // Find matching country name
-      Country country = graph.getCountryByName(input);
+    // Ask user for input
+    MessageCli.INSERT_COUNTRY.printMessage();
+    String input = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
 
-      if (country != null) {
-        // Get and print country details if found
-        String countryName = country.getCountryName();
-        String continent = country.getContinent();
-        String borderTax = String.valueOf(country.getBorderTax());
-        MessageCli.COUNTRY_INFO.printMessage(countryName, continent, borderTax);
-        return;
-      } else {
-        throw new InvalidCountryException(input);
-      }
-    } catch (InvalidCountryException e) {
-      // If country not found, throw exception and print error message
-      System.out.println(e.getMessage());
+    // Find matching country name
+    Country country = graph.getCountryByName(input);
 
-      // Repeat method
+    if (country != null) {
+      // Get and print country details if found
+      String countryName = country.getCountryName();
+      String continent = country.getContinent();
+      String borderTax = String.valueOf(country.getBorderTax());
+      MessageCli.COUNTRY_INFO.printMessage(countryName, continent, borderTax);
+      return;
+    } else {
+      // Repeat method if exception thrown
       showInfoCountry();
     }
   }
@@ -79,18 +72,12 @@ public class MapEngine {
       MessageCli.INSERT_SOURCE.printMessage();
       String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       source = graph.getCountryByName(sourceInput);
-      if (source == null) {
-        MessageCli.INVALID_COUNTRY.printMessage(sourceInput);
-      }
     } while (source == null);
 
     do {
       MessageCli.INSERT_DESTINATION.printMessage();
       String destinationInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
       destination = graph.getCountryByName(destinationInput);
-      if (destination == null) {
-        MessageCli.INVALID_COUNTRY.printMessage(destinationInput);
-      }
     } while (destination == null);
 
     // Check if user has entered same source as destination

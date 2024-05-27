@@ -31,12 +31,18 @@ class Graph {
   }
 
   public Country getCountryByName(String name) {
-    for (Country country : getAdjacencyMap().keySet()) {
-      if (country.getCountryName().equals(name)) {
-        return country;
+    try {
+      for (Country country : getAdjacencyMap().keySet()) {
+        if (country.getCountryName().equals(name)) {
+          return country;
+        }
       }
+      throw new InvalidCountryException(name);
+    } catch (InvalidCountryException e) {
+      // If country not found, throw exception and print error message
+      System.out.println(e.getMessage());
+      return null;
     }
-    return null;
   }
 
   public List<Country> findShortestPathBreadthFirstTraversal(Country source, Country destination) {
