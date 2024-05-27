@@ -73,9 +73,8 @@ public class MapEngine {
   public void showRoute() {
     Country source = null;
     Country destination = null;
-    List<Country> journey = new ArrayList<>();
-    Set<String> continents = new LinkedHashSet<>();
 
+    // Invalid input handling
     do {
       MessageCli.INSERT_SOURCE.printMessage();
       String sourceInput = Utils.capitalizeFirstLetterOfEachWord(Utils.readStringInput());
@@ -94,16 +93,18 @@ public class MapEngine {
       }
     } while (destination == null);
 
+    // Check if user has entered same source as destination
     if (source.equals(destination)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
     }
 
-    journey = graph.shortestPathBreadthFirstTraversal(source, destination);
+    List<Country> journey = graph.findShortestPathBreadthFirstTraversal(source, destination);
 
     int countryCount = 0;
     int continentCount = 0;
     int totalTax = 0;
+    Set<String> continents = new LinkedHashSet<>();
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
     StringBuilder stringBuilderContinentsTraversed = new StringBuilder();
     for (Country country : journey) {

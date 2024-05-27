@@ -39,7 +39,7 @@ class Graph {
     return null;
   }
 
-  public List<Country> shortestPathBreadthFirstTraversal(Country source, Country destination) {
+  public List<Country> findShortestPathBreadthFirstTraversal(Country source, Country destination) {
     // Visited can be a HashSet as the order does not matter
     Set<Country> visited = new HashSet<>();
     Queue<Country> queue = new LinkedList<>();
