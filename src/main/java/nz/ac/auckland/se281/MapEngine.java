@@ -1,7 +1,7 @@
 package nz.ac.auckland.se281;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -90,7 +90,6 @@ public class MapEngine {
     List<Country> journey = graph.findShortestPathBreadthFirstTraversal(source, destination);
 
     int countryCount = 0;
-    int continentCount = 0;
     int totalTax = 0;
     List<String> continents = new ArrayList<>();
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
@@ -106,7 +105,7 @@ public class MapEngine {
 
       // Add continent (if not already) to StringBuilder
       if (!continents.contains(country.getContinent())) {
-        
+
         // Don't add comma before first continent name
         if (countryCount > 1) {
           stringBuilderContinentsTraversed.append(", ");
