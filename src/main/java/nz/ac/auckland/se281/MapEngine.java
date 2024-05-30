@@ -1,8 +1,7 @@
 package nz.ac.auckland.se281;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -64,8 +63,8 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    Country source = null;
-    Country destination = null;
+    Country source;
+    Country destination;
 
     /* Invalid input handling for source and destination.
      * If getCountryByName returns null, InvalidCountryException is thrown and loop repeats.
@@ -93,36 +92,37 @@ public class MapEngine {
     int countryCount = 0;
     int continentCount = 0;
     int totalTax = 0;
-    Set<String> continents = new LinkedHashSet<>();
+    List<String> continents = new ArrayList<>();
     StringBuilder stringBuilderCountriesTraversed = new StringBuilder();
     StringBuilder stringBuilderContinentsTraversed = new StringBuilder();
 
     // Append lists
     for (Country country : journey) {
       String countryName = country.getCountryName();
-      continents.add(country.getContinent());
-      countryCount++;
 
+      // Add country to StringBuilder
+      countryCount++;
       stringBuilderCountriesTraversed.append(countryName);
+
+      // Add continent (if not already) to StringBuilder
+      if (!continents.contains(country.getContinent())) {
+        
+        // Don't add comma before first continent name
+        if (countryCount > 1) {
+          stringBuilderContinentsTraversed.append(", ");
+        }
+        continents.add(country.getContinent());
+        stringBuilderContinentsTraversed.append(country.getContinent());
+      }
 
       // Don't add comma after final country name
       if (countryCount < journey.size()) {
         stringBuilderCountriesTraversed.append(", ");
       }
 
-      // Don't add border tax of source country
+      // Don't include border tax of source country
       if (countryCount > 1) {
         totalTax += country.getBorderTax();
-      }
-    }
-
-    for (String continent : continents) {
-      stringBuilderContinentsTraversed.append(continent);
-      continentCount++;
-
-      // Don't add comma after final continent name
-      if (continentCount < continents.size()) {
-        stringBuilderContinentsTraversed.append(", ");
       }
     }
 

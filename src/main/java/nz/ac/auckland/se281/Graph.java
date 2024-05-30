@@ -26,7 +26,7 @@ class Graph {
   }
 
   public void addVertex(Country node) {
-    adjacencyMap.putIfAbsent(node, new LinkedList<>());
+    adjacencyMap.putIfAbsent(node, new ArrayList<>());
   }
 
   /**
